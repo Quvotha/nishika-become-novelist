@@ -1,0 +1,41 @@
+時系列を意識した特徴量作成を行う
+
+
+- カテゴリ項目に対して：過去データ全て、Nヵ月分だけ等・・・
+　- ターゲットエンコーディング
+　- 頻度エンコーディング
+- 作者ごとの掲載履歴に対して
+  - 初投稿時期
+  - 前回投稿からの期間
+  - 初回投稿からの期間
+  - 作品数
+  - 投稿頻度
+  - ターゲットの累積値、平均値、ばらつき。値毎のカウント
+  - 作品の属性を表すカテゴリに対して
+    - カテゴリ内でのターゲットの累積値、平均値、ばらつき。値毎のカウント
+    - カテゴリの登場カウント
+    
+ただしある作品が人気になったことで同じ作者の過去作品にも注目が集まり人気が出る可能性もある。
+
+・64bitのMeCabをインストール、エンコードはUTF-8
+・Neologd をインストール、以下のサイトを参考にUTF-8のユーザ辞書に
+https://qiita.com/zincjp/items/c61c441426b9482b5a48
+dictionary/NEologd.20220910-u.dic として保存
+
+2. keyword: CountVectorizer -> TruncatedSVD, title: CountVectorizer -> TruncatedSVD, story: CountVectorizer -> TruncatedSVD
+3. keyword の次元削減を LDA に変更
+4. title: CountVectorizer -> LDA
+5. title: Doc2Vec
+6. title: TfidfVectorizer -> TruncatedSVD
+7. title: TfidfVectorizer -> LDA
+8. title: TfidfVectorizer -> Doc2Vec  # 廃止
+9. story: CountVectorizer -> LDA
+10. story: Doc2Vec
+11. story: TfidsVectorizer -> TruncatedSVD
+12. story: TfidsVectorizer -> LDA
+13. story: TfidsVectorizer -> Doc2Vec  # 廃止
+
+- TimeSeries は全てのデータで訓練する
+　log\preprocessing_20211128_233454.log
+  log\phase1_20211129_000213.log
+- 上記のパターンに加え TimeSeries でもユーザを特徴量にする
